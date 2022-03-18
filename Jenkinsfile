@@ -82,7 +82,7 @@ pipeline {
                        sh "git remote set-url origin https://${USER}:${PWD}@github.com/Abdelmoghit-IDH/spring-boot-shop-sample.git"
                        sh "git add ."
                        sh "git commit -m 'change the version pox.xml to ${VERSION}'"
-                       sh "git push origin HEAD:main"
+                       sh "git push origin HEAD:master"
                     }
                 }
             }
