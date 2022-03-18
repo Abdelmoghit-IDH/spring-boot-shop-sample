@@ -79,7 +79,7 @@ pipeline {
                        sh "git config --global user.name 'Jenkins'"
                        sh "git config --list"
 
-                       sh "git remote set-url origin https://${USER}:${PWD}@github.com/Abdelmoghit-IDH//spring-boot-shop_artifact-sample.git"
+                       sh "git remote set-url origin https://${USER}:${PWD}@github.com/Abdelmoghit-IDH/spring-boot-shop_artifact-sample.git"
                        sh "git add ."
                        sh "git commit -m 'change the version pox.xml to ${VERSION}'"
                        sh "git push origin HEAD:main"
