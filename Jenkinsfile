@@ -44,8 +44,8 @@ pipeline {
         stage("Build image"){
             steps{
                 script {
-                    sh "docker build -t 'Shop:${VERSION}' ."
-                    sh "docker tag 'Shop:${VERSION}' '${NEXUS_SERVER}/Shop:${VERSION}'"
+                    sh "docker build -t 'shop_artifact:${VERSION}' ."
+                    sh "docker tag 'shop_artifact:${VERSION}' '${NEXUS_SERVER}/shop_artifact:${VERSION}'"
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'nexus-repository', passwordVariable: 'PWD', usernameVariable: 'USER')]) {
                        sh "docker login -u ${USER} -p ${PWD} ${NEXUS_SERVER}"
-                       sh "docker push '${NEXUS_SERVER}/Shop:${VERSION}'" 
+                       sh "docker push '${NEXUS_SERVER}/shop_artifact:${VERSION}'" 
                     }
                 }
             }
@@ -75,7 +75,7 @@ pipeline {
             steps{
                 script {
                     withCredentials([usernamePassword(credentialsId: 'github-account', passwordVariable: 'PWD', usernameVariable: 'USER')]) {
-                       sh "git remote set-url origin https://${USER}:${PWD}@github.com/Abdelmoghit-IDH//spring-boot-shop-sample.git"
+                       sh "git remote set-url origin https://${USER}:${PWD}@github.com/Abdelmoghit-IDH//spring-boot-shop_artifact-sample.git"
                        sh "git add ."
                        sh "git commit -m 'change the version pox.xml to ${VERSION}'"
                        sh "git push origin HEAD:main"
