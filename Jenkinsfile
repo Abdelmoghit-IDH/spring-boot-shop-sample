@@ -1,4 +1,3 @@
-#!/usr/bin/env groovy
 def NEXUS_SERVER
 def VERSION
 
