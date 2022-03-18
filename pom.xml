@@ -5,7 +5,7 @@
 
     <groupId>com.syqu.abdelmoghit</groupId>
     <artifactId>shop</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>E-shop N3XT</name>
