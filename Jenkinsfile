@@ -1,5 +1,6 @@
 def NEXUS_SERVER
 def VERSION
+def SERVER_IP
 
 pipeline {
     agent any
@@ -13,6 +14,7 @@ pipeline {
             steps{
                 script {
                     NEXUS_SERVER = "68.183.216.191:8082"
+                    SERVER_IP = "35.159.31.96"
                 }
             }
         }
@@ -66,7 +68,13 @@ pipeline {
 
             steps{
                 script {
-                    echo "Deploy to EC2 Amazon ..."
+                    withCredentials([usernamePassword(credentialsId: 'nexus-repository', passwordVariable: 'PWD', usernameVariable: 'USER')]) {
+                        def dockerLogin = "docker login -u ${USER} -p ${PWD} ${NEXUS_SERVER}" 
+                        def dockerCMD = "docker run -d -p 80:80 --name shop_artifact:${VERSION} '${NEXUS_SERVER}/shop_artifact:${VERSION}'"
+                        sshagent(['ec2-server-key']) {
+                             sh "ssh -o StrictHostKeyChecking=no ec2-user@SERVER_IP ${dockerLogin} && ${dockerCMD}"
+                        }
+                    }
                 }
             }
         }
