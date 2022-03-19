@@ -68,7 +68,7 @@ pipeline {
 
             steps{
                 script {
-                    def dockerCMD = "docker run -d -p 80:80 --name shop:V${VERSION} '${NEXUS_SERVER}/shop:V${VERSION}'"
+                    def dockerCMD = "docker run -d -p 80:80 --name shop '${NEXUS_SERVER}/shop:V${VERSION}'"
                         sshagent(['ec2-server-key']) {
                              sh "ssh -o StrictHostKeyChecking=no ec2-user@${SERVER_IP} ${dockerCMD}"
                         }
