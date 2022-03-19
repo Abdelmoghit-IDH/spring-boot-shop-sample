@@ -1,6 +1,7 @@
 def NEXUS_SERVER
 def VERSION
 def SERVER_IP
+def MATCHER
 
 pipeline {
     agent any
@@ -27,8 +28,8 @@ pipeline {
                         -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
                         versions:commit' 
                     def matcher = readFile("pom.xml") =~ '<version>(.+)</version>'
-                    def version = matcher[0][1]
-                    VERSION = "$version-$BUILD_NUMBER"
+                     MATCHER = matcher[0][1]
+                    VERSION = "$MATCHER-$BUILD_NUMBER"
                     echo "The version $VERSION"
                 }
             }
@@ -68,7 +69,7 @@ pipeline {
 
             steps{
                 script {
-                    def dockerCMD = "docker run -d -p 80:80 --name shop '${NEXUS_SERVER}/shop:V${VERSION}'"
+                    def dockerCMD = "docker run -d -p 80:80 --name 'shop.$MATCHER' '${NEXUS_SERVER}/shop:V${VERSION}'"
                         sshagent(['ec2-server-key']) {
                              sh "ssh -o StrictHostKeyChecking=no ec2-user@${SERVER_IP} ${dockerCMD}"
                         }
