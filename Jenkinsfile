@@ -15,7 +15,7 @@ pipeline {
             steps{
                 script {
                     NEXUS_SERVER = "68.183.216.191:8082"
-                    SERVER_IP = "35.159.31.96"
+                    SERVER_IP = "3.68.213.188"
                 }
             }
         }
