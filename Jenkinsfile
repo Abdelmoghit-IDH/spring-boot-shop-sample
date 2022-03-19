@@ -69,7 +69,7 @@ pipeline {
 
             steps{
                 script {
-                    def scriptCMD= "chmod +x docker-script.sh && ./docker-script.sh 'shop.${MATCHER}' '${NEXUS_SERVER}/shop:V${VERSION}"
+                    def scriptCMD= "chmod +x docker-script.sh && ./docker-script.sh 'shop.${MATCHER}' '${NEXUS_SERVER}/shop:V${VERSION}'"
                         sshagent(['ec2-server-key']) {
                              sh "ssh -o StrictHostKeyChecking=no ec2-user@${SERVER_IP} ${scriptCMD}"
                         }
