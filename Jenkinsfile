@@ -1,3 +1,4 @@
+//jenkinsfile
 def NEXUS_SERVER
 def VERSION
 def SERVER_IP
