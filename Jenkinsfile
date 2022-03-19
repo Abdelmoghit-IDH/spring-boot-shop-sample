@@ -46,8 +46,8 @@ pipeline {
         stage("Build image"){
             steps{
                 script {
-                    sh "docker build -t 'shopArtifact:${VERSION}' ."
-                    sh "docker tag 'shopArtifact:${VERSION}' '${NEXUS_SERVER}/shopArtifact:${VERSION}'"
+                    sh "docker build -t 'shop:${VERSION}' ."
+                    sh "docker tag 'shop:${VERSION}' '${NEXUS_SERVER}/shop:${VERSION}'"
                 }
             }
         }
@@ -58,7 +58,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'nexus-repository', passwordVariable: 'PWD', usernameVariable: 'USER')]) {
                        sh "docker login -u ${USER} -p ${PWD} ${NEXUS_SERVER}"
-                       sh "docker push '${NEXUS_SERVER}/shopArtifact:${VERSION}'" 
+                       sh "docker push '${NEXUS_SERVER}/shop:${VERSION}'" 
                     }
                 }
             }
@@ -68,7 +68,7 @@ pipeline {
 
             steps{
                 script {
-                    def dockerCMD = "docker run -d -p 80:80 --name shopArtifact:${VERSION} '${NEXUS_SERVER}/shopArtifact:${VERSION}'"
+                    def dockerCMD = "docker run -d -p 80:80 --name shop:${VERSION} '${NEXUS_SERVER}/shop:${VERSION}'"
                         sshagent(['ec2-server-key']) {
                              sh "ssh -o StrictHostKeyChecking=no ec2-user@${SERVER_IP} ${dockerCMD}"
                         }
